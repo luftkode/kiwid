@@ -1,68 +1,39 @@
-#
-# assembler for the embedded processor
-#
-# Copyright (c) 2013-2025 John Seamons, ZL4VO/KF6VO
+# Pure Makefile for KiwiSDR embedded CPU assembler
+# Removed legacy includes for Yocto compatibility
 
-KIWI_SRC = ..
+# Standard toolchain defaults
+CXX ?= g++
+STRIP ?= strip
 
-include $(KIWI_SRC)/Makefile.comp.inc
-
-BUILD_DIR = ../../build
+# Paths (passed from parent or defaulted)
+BUILD_DIR ?= ../build
 TOOLS_DIR = $(BUILD_DIR)/tools
 GEN_DIR = $(BUILD_DIR)/gen
+KIWI_SRC = ..
 
-CFLAGS = -I. -I./asm -I.. -I$(KIWI_SRC) -D_GNU_SOURCE -g 
-ifeq ($(ASAN),1)
-    CFLAGS += -fsanitize=address
-endif
-
+# ASM tool configuration
 ASM = $(TOOLS_DIR)/asm
-
-all: $(ASM) no_gen
-
-gen_includes debug2: $(ASM)
-	-$(ASM) -o $(GEN_DIR) $(OTHER_DIR)
-	sum $(GEN_DIR)/kiwi.aout
-
-info: $(ASM)
-	-$(ASM) -i -o $(GEN_DIR) $(OTHER_DIR)
-	sum $(GEN_DIR)/kiwi.aout
-
-gen_other: $(ASM)
-	-$(ASM) -o $(GEN_DIR) -g $(OTHER_DIR)
-	sum $(GEN_DIR)/kiwi.aout
-
-$(TOOLS_DIR):
-	@mkdir -p $(TOOLS_DIR)
-
-$(GEN_DIR):
-	@mkdir -p $(GEN_DIR)
-
-ASM_INCLUDES = $(wildcard asm/*.h)
 ASM_SOURCE = $(wildcard asm/*.cpp)
+ASM_INCLUDES = $(wildcard asm/*.h)
 
-$(ASM): $(TOOLS_DIR) $(GEN_DIR) $(ASM_INCLUDES) $(ASM_SOURCE) Makefile
-	$(CPP) $(CFLAGS) $(ASM_SOURCE) -o $@
+# CXXFLAGS for the host tool (asm)
+INTERNAL_CXXFLAGS = -I. -I./asm -I.. -I$(KIWI_SRC) -D_GNU_SOURCE -g
 
-# don't regenerate the .h/.vh files
-no_gen: $(ASM)
-	-$(ASM) -n -o $(GEN_DIR) $(OTHER_DIR)
-	sum $(GEN_DIR)/kiwi.aout
+.PHONY: all gen clean
 
-debug: $(ASM)
-	-$(ASM) -n -d -o $(GEN_DIR) $(OTHER_DIR)
-	sum $(GEN_DIR)/kiwi.aout
+all: $(ASM) gen
 
-binary: $(ASM)
-	-$(ASM) -n -b -o $(GEN_DIR) $(OTHER_DIR)
-	sum $(GEN_DIR)/kiwi.aout
+# The generator tool itself
+$(ASM): $(ASM_SOURCE) $(ASM_INCLUDES)
+	@mkdir -p $(TOOLS_DIR)
+	@mkdir -p $(GEN_DIR)
+	$(CXX) $(CXXFLAGS) $(INTERNAL_CXXFLAGS) $(ASM_SOURCE) -o $@
+	$(STRIP) $@
 
-stat stats: $(ASM)
-	-$(ASM) -n -s -o $(GEN_DIR) $(OTHER_DIR)
-
-gdb: $(ASM)
-	@echo "gdb: r -o ../../build/gen"
-	gdb $(ASM)
+# Generate the headers required for the main build
+gen: $(ASM)
+	@mkdir -p $(GEN_DIR)
+	$(ASM) -o $(GEN_DIR) $(OTHER_DIR)
 
 clean:
-	-rm -rf $(TOOLS_DIR)/asm* $(GEN_DIR)
+	rm -f $(ASM)
