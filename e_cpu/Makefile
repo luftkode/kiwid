@@ -5,6 +5,15 @@
 CXX ?= g++
 STRIP ?= strip
 
+BOLD 	:= 	\033[1m
+NORMAL 	:= 	\033[0m
+GREEN 	:= 	\033[32m
+RED 	:= 	\033[31m
+
+G := $(BOLD)$(GREEN)
+B := $(BOLD)
+N := $(NORMAL)
+
 # Paths (passed from parent or defaulted)
 BUILD_DIR ?= ../build
 TOOLS_DIR = $(BUILD_DIR)/tools
@@ -25,15 +34,18 @@ all: $(ASM) gen
 
 # The generator tool itself
 $(ASM): $(ASM_SOURCE) $(ASM_INCLUDES)
+	@echo "$(G)Compiling softcore assembler...$(N)"
 	@mkdir -p $(TOOLS_DIR)
 	@mkdir -p $(GEN_DIR)
-	$(CXX) $(CXXFLAGS) $(INTERNAL_CXXFLAGS) $(ASM_SOURCE) -o $@
-	$(STRIP) $@
+	@$(CXX) $(CXXFLAGS) $(INTERNAL_CXXFLAGS) $(ASM_SOURCE) -o $@
+	@$(STRIP) $@
 
 # Generate the headers required for the main build
 gen: $(ASM)
+	@echo "$(G)Generating headers...$(N)"
 	@mkdir -p $(GEN_DIR)
-	$(ASM) -o $(GEN_DIR) $(OTHER_DIR)
+	@$(ASM) -o $(GEN_DIR) $(OTHER_DIR)
 
 clean:
-	rm -f $(ASM)
+	@echo "$(G)Cleaning build directory...$(N)"
+	@rm -f $(ASM)

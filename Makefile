@@ -118,7 +118,6 @@ GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 $(ALL_OBJECTS): $(GEN_HEADERS)
 
 $(GEN_HEADERS):
-	@echo "$(G)Generating headers...$(N)"
 	@$(eval HOST_CXX = $(if $(BUILD_CXX),$(BUILD_CXX),g++))
 	@$(MAKE) -C e_cpu gen \
 		CXX="$(HOST_CXX)" \
