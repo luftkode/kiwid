@@ -1,5 +1,5 @@
 VERSION_MAJ = 1
-VERSION_MIN = 837
+VERSION_MIN = 838
 
 # You must have:
 # sudo apt-get install libfftw3-dev libsndfile1-dev zlib1g-dev
