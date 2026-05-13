@@ -12,6 +12,16 @@ OBJCOPY  ?= objcopy
 STRIP    ?= strip
 PKG_CONFIG ?= pkg-config
 
+
+BOLD 	:= 	\033[1m
+NORMAL 	:= 	\033[0m
+GREEN 	:= 	\033[32m
+RED 	:= 	\033[31m
+
+G := $(BOLD)$(GREEN)
+B := $(BOLD)
+N := $(NORMAL)
+
 # --- Directories ---
 BUILD_DIR = build
 OBJ_DIR   = $(BUILD_DIR)/obj
@@ -119,42 +129,45 @@ $(GEN_HEADERS):
 # Link the final binary (Now including special objects)
 $(BIN): $(ALL_OBJECTS)
 	@mkdir -p $(dir $@)
-	@echo "Linking optimized binary $@"
+	@echo "$(G)Linking$(N) $@"
 	$(CXX) $(ALL_OBJECTS) $(ALL_LDFLAGS) -o $@
-
 
 # --- Standard Pattern Rules ---
 # Pattern rule for C++ files (Preserves directory tree)
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
+	@echo "$(G)Compiling$(N) $<"
+	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 # Pattern rule for C files (Preserves directory tree)
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	$(CC) $(ALL_CFLAGS) -c $< -o $@
+	@echo "$(G)Compiling$(N) $<"
+	@$(CC) $(ALL_CFLAGS) -c $< -o $@
 
 # --- Special KiwiSDR Object Rules ---
 # The web server MUST be compiled with EDATA_EMBED for the production kiwid.bin
 $(OBJ_DIR)/web/web_embed.o: web/web.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(ALL_CXXFLAGS) -DEDATA_EMBED -c $< -o $@
+	@echo "$(G)Compiling$(N) $<"
+	@$(CXX) $(ALL_CXXFLAGS) -DEDATA_EMBED -c $< -o $@
 
 # Extension initialization (from your GEN_DIR)
 $(OBJ_DIR)/ext_init.o: $(GEN_DIR)/ext_init.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
+	@echo "$(G)Compiling$(N) $<"
+	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 # Embedded data (the actual website files turned into code)
 $(OBJ_DIR)/edata_embed.o: $(GEN_DIR)/edata_embed.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
+	@echo "$(G)Compiling$(N) $<"
+	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/edata_always.o: $(GEN_DIR)/edata_always.cpp
 	@mkdir -p $(dir $@)
-	$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
-
-
+	@echo "$(G)Compiling$(N) $<"
+	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(BUILD_DIR)
