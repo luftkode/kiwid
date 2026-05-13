@@ -86,7 +86,7 @@ override DEFS += \
     -DREPO_DIR=\"$(REPO_PATH)\" \
     -DREPO_GIT=\"$(REPO_GIT)\" \
     -DGITHUB_COM_PUBLIC_IP=\"$(GITHUB_IP)\" \
-	-DMG_LEGACY_INTERFACE \
+	-DMONGOOSE_NEW_API \
 	-DMG_ENABLE_THREADS
 
 # --- FFTW3 Check ---
