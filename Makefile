@@ -118,10 +118,9 @@ GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 $(ALL_OBJECTS): $(GEN_HEADERS)
 
 $(GEN_HEADERS):
-	@echo "Generating hardware-specific headers..."
-	@echo "In Yocto, we use $(BUILD_CXX) for tools that must run on the host"
-	$(eval HOST_CXX = $(if $(BUILD_CXX),$(BUILD_CXX),g++))
-	$(MAKE) -C e_cpu gen \
+	@echo "$(G)Generating headers...$(N)"
+	@$(eval HOST_CXX = $(if $(BUILD_CXX),$(BUILD_CXX),g++))
+	@$(MAKE) -C e_cpu gen \
 		CXX="$(HOST_CXX)" \
 		BUILD_DIR="../$(BUILD_DIR)" \
 		GEN_DIR="../$(GEN_DIR)"
@@ -170,6 +169,7 @@ $(OBJ_DIR)/edata_always.o: $(GEN_DIR)/edata_always.cpp
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(BUILD_DIR)
+	@echo "$(G)Cleaning build directory...$(N)"
+	@rm -rf $(BUILD_DIR)
 
 .PHONY: clean build clean_build
