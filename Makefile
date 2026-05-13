@@ -8,6 +8,8 @@ VERSION_MIN = 838
 # These ?= assignments allow Yocto to override them via the environment
 CC       ?= gcc
 CXX      ?= g++
+# CC       ?= clang
+# CXX      ?= clang++
 OBJCOPY  ?= objcopy
 STRIP    ?= strip
 PKG_CONFIG ?= pkg-config
@@ -37,7 +39,11 @@ GITHUB_IP = "140.82.121.3"
 # --- Source Discovery ---
 # Automatically find all directories containing source or header files
 # Excludes the build directory and any hidden folders (like .git)
-ALL_DIRS := $(shell find . -maxdepth 4 -not -path '*/.*' -not -path './$(OBJ_DIR)*' -type d)
+ALL_DIRS := $(shell find . \
+	-maxdepth 4 \
+	-not -path '*/.*' \
+	-not -path './$(OBJ_DIR)*' \
+	-type d)
 
 # Standard Includes
 INCLUDES = -I. -I$(GEN_DIR) $(addprefix -I,$(ALL_DIRS)) -I/usr/include/fftw3
@@ -48,7 +54,8 @@ HOST_NAME = "kiwisdr"
 override DEFS += \
 	-DVERSION_MAJ=$(VERSION_MAJ) \
 	-DVERSION_MIN=$(VERSION_MIN) \
-	-DKIWI -DKIWISDR \
+	-DKIWI \
+	-DKIWISDR \
 	-DPLATFORM_RASPI \
 	-DPLATFORM_LINUX \
 	-DCPU_BCM2837 \
@@ -64,7 +71,8 @@ override DEFS += \
     -DREPO_GIT=\"$(REPO_GIT)\" \
     -DGITHUB_COM_PUBLIC_IP=\"$(GITHUB_IP)\" \
 	-DMONGOOSE_NEW_API \
-	-DMG_ENABLE_THREADS
+	-DMG_ENABLE_THREADS \
+	-DHAVE_STDINT_H=1
 
 # --- FFTW3 Check ---
 # This is the "proper" way to find FFTW3 headers/libs
@@ -74,7 +82,7 @@ FFTW_LIBS   := $(shell $(PKG_CONFIG) --libs fftw3f 2>/dev/null || echo "-lfftw3f
 
 # Internal Flags
 # Added $(FFTW_CFLAGS) to the include list
-INTERNAL_CFLAGS = -Wno-builtin-macro-redefined $(DEFS) $(INCLUDES) $(FFTW_CFLAGS) -O3 -g -pthread -include sys/wait.h 
+INTERNAL_CFLAGS = $(DEFS) $(INCLUDES) $(FFTW_CFLAGS) -O3 -g -pthread -include sys/wait.h 
 INTERNAL_LDFLAGS = $(FFTW_LIBS) -lutil -lcrypt -lrt -lpthread -lm
 
 # Final variables used in rules

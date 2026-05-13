@@ -49,7 +49,9 @@ void DRM_loop(int rx_chan)
     //printf("$$$$ DRM_loop rx_chan=%d run=%d pid=%d\n", rx_chan, drm->run, getpid());
     assert(drm->init);
     
-    CConsoleIO ConsoleIO;
+    #ifdef USE_CONSOLEIO
+        CConsoleIO ConsoleIO;
+    #endif
     
     try {
 		CSettings Settings;
