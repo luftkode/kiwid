@@ -25,42 +25,9 @@ REPO_GIT = https://github.com/luftkode/$(REPO_NAME)
 GITHUB_IP = "140.82.121.3"
 
 # --- Source Discovery ---
-# Replicating the core directory structure of KiwiSDR
-DIRS = . \
-	dev \
-	ui \
-	cfg \
-	dx \
-	support \
-	net \
-	web \
-	platform \
-	platform/common \
-	platform/raspberrypi \
-	gps \
-	gps/ka9q-fec \
-	gps/GNSS-SDRLIB \
-	rx \
-	rx/kiwi \
-	rx/CuteSDR \
-	rx/csdr \
-	rx/Teensy \
-	rx/wdsp \
-	rx/sdrpp \
-	pkgs/utf8 \
-	pkgs/mongoose \
-	pkgs/jsmn \
-	pkgs/sha256 \
-	pkgs/TNT_JAMA \
-	pkgs/ant_switch \
-	pkgs/sdrpp_server \
-	extensions
-
-# Find all extensions
-EXT_SUBDIRS = $(sort $(dir $(wildcard extensions/*/)))
-
-# Combine all source directories
-ALL_DIRS = $(DIRS) $(EXT_SUBDIRS)
+# Automatically find all directories containing source or header files
+# Excludes the build directory and any hidden folders (like .git)
+ALL_DIRS := $(shell find . -maxdepth 4 -not -path '*/.*' -not -path './$(OBJ_DIR)*' -type d)
 
 # Standard Includes
 INCLUDES = -I. -I$(GEN_DIR) $(addprefix -I,$(ALL_DIRS)) -I/usr/include/fftw3
