@@ -139,9 +139,10 @@ clean:
 # --- Header Generation and Softcore/e_cpu Assembling ---
 GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 
-$(ALL_OBJECTS): $(GEN_HEADERS) $(GEN_SOURCES)
+$(ALL_OBJECTS): $(GEN_HEADERS)
 
-$(GEN_SOURCES): $(GEN_HEADERS)
+build/gen/ext_init.cpp build/gen/edata_embed.cpp build/gen/edata_always.cpp: $(GEN_HEADERS)
+	@:
 
 $(GEN_HEADERS):
 	@$(MAKE) -C e_cpu gen \
