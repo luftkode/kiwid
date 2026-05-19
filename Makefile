@@ -139,10 +139,8 @@ clean:
 # --- Header Generation and Softcore/e_cpu Assembling ---
 GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 
+# All compiled objects depend on the generated header being present first
 $(ALL_OBJECTS): $(GEN_HEADERS) build/gen/ext_init.cpp
-
-build/gen/edata_embed.cpp build/gen/edata_always.cpp: $(GEN_HEADERS)
-	@:
 
 $(GEN_HEADERS):
 	@$(MAKE) -C e_cpu gen \
@@ -150,6 +148,7 @@ $(GEN_HEADERS):
 		BUILD_DIR="../$(BUILD_DIR)" \
 		GEN_DIR="../$(GEN_DIR)"
 
+# --- Extension initialiser ---
 # Automatically discover all extension modules on disk (excluding DRM)
 EXT_DIRS := $(sort $(dir $(wildcard extensions/*/)))
 EXTS     := $(filter-out DRM, $(notdir $(patsubst %/,%,$(EXT_DIRS))))
@@ -168,6 +167,21 @@ build/gen/ext_init.cpp:
 	@if [ -f $@.tmp ]; then sort -bdf -f $@.tmp >> $@ && rm -f $@.tmp; fi
 	@echo "    return vars;" >> $@
 	@echo "}" >> $@
+
+# --- Web asset embedding  ---
+_EMBED_FILES  := $(patsubst web/%,%,$(FILES_EMBED))
+_ALWAYS_FILES := $(patsubst web/%,%,$(FILES_ALWAYS))
+ 
+$(GEN_DIR)/edata_embed.cpp: $(GEN_HEADERS) | $(GEN_DIR)
+	@echo "$(G)Generating$(N) $@ ($(words $(FILES_EMBED)) files)"
+	@cd web && perl mkdata.pl edata_embed $(FILES_EMBED) > ../$(GEN_DIR)/edata_embed.cpp
+ 
+$(GEN_DIR)/edata_always.cpp: $(GEN_HEADERS) | $(GEN_DIR)
+	@echo "$(G)Generating$(N) $@ ($(words $(FILES_ALWAYS)) files)"
+	@cd web && perl mkdata.pl edata_always $(FILES_ALWAYS) > ../$(GEN_DIR)/edata_always.cpp
+ 
+$(GEN_DIR):
+	@mkdir -p $@
 
 # --- Linking ---
 $(BIN): $(ALL_OBJECTS)
