@@ -154,7 +154,7 @@ ALL_DIRS := \
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
 SOURCES_C   = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.c))
 # Filter out web.cpp from standard discovery because it needs special defines
-SOURCES_CPP := $(filter-out web/web.cpp, $(SOURCES_CPP))
+SOURCES_CPP := $(filter-out ./web/web.cpp, $(SOURCES_CPP))
 
 # --- Special Files ---
 KIWI_SPECIAL_OBJS = \
