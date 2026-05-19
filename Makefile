@@ -14,6 +14,9 @@ OBJCOPY  ?= objcopy
 STRIP    ?= strip
 PKG_CONFIG ?= pkg-config
 
+# --- Host Compiler ---
+BUILD_CXX  ?= g++
+
 # --- Colors ---
 BOLD 	:= 	\033[1m
 NORMAL 	:= 	\033[0m
@@ -120,9 +123,8 @@ GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 $(ALL_OBJECTS): $(GEN_HEADERS)
 
 $(GEN_HEADERS):
-	@$(eval HOST_CXX = $(if $(BUILD_CXX),$(BUILD_CXX),g++))
 	@$(MAKE) -C e_cpu gen \
-		CXX="$(HOST_CXX)" \
+		BUILD_CXX="$(BUILD_CXX)" \
 		BUILD_DIR="../$(BUILD_DIR)" \
 		GEN_DIR="../$(GEN_DIR)"
 
