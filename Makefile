@@ -87,6 +87,7 @@ ALL_LDFLAGS  = $(LDFLAGS) $(INTERNAL_LDFLAGS)
 # --- Source File Directories ---
 ALL_DIRS := \
 	. \
+	./cfg \
 	./extensions \
 	./extensions/ALE_2G \
 	./extensions/colormap \
