@@ -103,7 +103,6 @@ ALL_DIRS := \
 	./extensions/CW_skimmer \
 	./extensions/devl \
 	./extensions/digi_modes \
-	# TODO ./extensions/DRM
 	./extensions/FAX \
 	./extensions/FFT \
 	./extensions/FSK \
@@ -112,22 +111,31 @@ ALL_DIRS := \
 	./extensions/FT8/ft8_lib/common \
 	./extensions/FT8/ft8_lib/fft \
 	./extensions/FT8/ft8_lib/ft8 \
-	./extensions/HFDL/ \
+	# TODO ./extensions/HFDL/ \
 	./extensions/HFDL/dumphfdl/src \
 	./extensions/HFDL/dumphfdl/src/libfec \
 	./extensions/HFDL/include/libacars-2/libacars \
 	./extensions/HFDL/include/libacars-2/libacars/asn1 \
 	./extensions/HFDL/include/liquid
-# TODO
+	./extensions/IBP_scan \
+	./extensions/iframe \
+	./extensions/IQ_display \
+	./extensions/Loran_C \
+	./extensions/NAVTEX \
+	./extensions/prefs \
+	./extensions/S_meter \
+	./extensions/s4285 \
+	./extensions/sig_gen \
+	./extensions/SSTV \
+	./extensions/TDoA \
+	./extensions/timecode \
+	./extensions/wspr
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
 SOURCES_C   = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.c))
 # Filter out web.cpp from standard discovery because it needs special defines
 SOURCES_CPP := $(filter-out web/web.cpp, $(SOURCES_CPP))
-# Filter out DRM because it dosen't support Raspberry Pi
-SOURCES_CPP := $(foreach src,$(SOURCES_CPP),$(if $(findstring /extensions/DRM/,$(src)),,$(src)))
-SOURCES_C   := $(foreach src,$(SOURCES_C),$(if $(findstring /extensions/DRM/,$(src)),,$(src)))
 
 # --- Special Files ---
 KIWI_SPECIAL_OBJS = \
