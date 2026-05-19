@@ -147,7 +147,8 @@ ALL_DIRS := \
 	./rx/Teensy \
 	./rx/wdsp \
 	./support \
-	./ui
+	./ui \
+	./web
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
