@@ -85,6 +85,8 @@ ALL_DIRS := $(shell find . \
 	-not -path '*/.*' \
 	-not -path './$(OBJ_DIR)*' \
 	-type d)
+# Filter out unused old versions of mongoose
+ALL_DIRS := $(filter-out ./$(OBJ_DIR)% ./pkgs/mongoose/mongoose%, $(ALL_DIRS))
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
