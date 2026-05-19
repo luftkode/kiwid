@@ -161,7 +161,8 @@ KIWI_SPECIAL_OBJS = \
     $(OBJ_DIR)/web/web_embed.o \
     $(OBJ_DIR)/ext_init.o \
     $(OBJ_DIR)/edata_embed.o \
-    $(OBJ_DIR)/edata_always.o
+    $(OBJ_DIR)/edata_always.o \
+    $(OBJ_DIR)/drm_stub.o
 
 # --- Object Files ---
 OBJECTS_CPP = $(patsubst %.cpp,$(OBJ_DIR)/%.o,$(SOURCES_CPP))
@@ -265,5 +266,9 @@ $(OBJ_DIR)/edata_always.o: $(GEN_DIR)/edata_always.cpp
 	@mkdir -p $(dir $@)
 	@echo "$(G)Compiling$(N) $<"
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/drm_stub.o:
+	@mkdir -p $(dir $@)
+	@echo 'bool DRM_enable = false;' | $(CXX) -x c++ -c - -o $@
 
 .PHONY: build clean clean_build
