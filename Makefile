@@ -102,12 +102,6 @@ ALL_DIRS := \
 	./extensions/FT8/ft8_lib/common \
 	./extensions/FT8/ft8_lib/fft \
 	./extensions/FT8/ft8_lib/ft8 \
-	# TODO ./extensions/HFDL/ \
-	./extensions/HFDL/dumphfdl/src \
-	./extensions/HFDL/dumphfdl/src/libfec \
-	./extensions/HFDL/include/libacars-2/libacars \
-	./extensions/HFDL/include/libacars-2/libacars/asn1 \
-	./extensions/HFDL/include/liquid
 	./extensions/IBP_scan \
 	./extensions/iframe \
 	./extensions/IQ_display \
