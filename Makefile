@@ -39,7 +39,7 @@ REPO_GIT = https://github.com/luftkode/$(REPO_NAME)
 GITHUB_IP = "140.82.121.3"
 HOST_NAME = "kiwisdr"
 
-# Standard Includes
+# --- Includes ---
 INCLUDES = -I. -I$(GEN_DIR) $(addprefix -I,$(ALL_DIRS)) -I/usr/include/fftw3
 
 # --- Compiler Flags ---
