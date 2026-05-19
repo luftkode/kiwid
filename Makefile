@@ -87,15 +87,6 @@ ALL_LDFLAGS  = $(LDFLAGS) $(INTERNAL_LDFLAGS)
 # --- Source File Directories ---
 ALL_DIRS := \
 	. \
-	./support \
-	./net \
-	./rx \
-	./rx/CuteSDR \
-	./rx/Teensy \
-	./rx/fldigi \
-	./rx/fldigi/rsid \
-	./ui \
-	./web \
 	./extensions \
 	./extensions/ALE_2G \
 	./extensions/colormap \
@@ -129,7 +120,38 @@ ALL_DIRS := \
 	./extensions/SSTV \
 	./extensions/TDoA \
 	./extensions/timecode \
-	./extensions/wspr
+	./extensions/wspr \
+	./gps \
+	./gps/GNSS-SDRLIB \
+	./gps/ka9q-fec \
+	./net \
+	./pkgs/ant_switch \
+	./pkgs/EiBi \
+	./pkgs/jsmn \
+	./pkgs/mongoose \
+	./pkgs/noip2 \
+	./pkgs/parson \
+	./pkgs/sdrpp_server \
+	./pkgs/sha256 \
+	./pkgs/TNT_JAMA \
+	./pkgs/TNT_JAMA/jama \
+	./pkgs/TNT_JAMA/tnt \
+	./pkgs/utf8 \
+	./platform \
+	./platform/common \
+	./platform/raspberrypi \
+	./rx \
+	./rx/CMSIS \
+	./rx/csdr \
+	./rx/CuteSDR \
+	./rx/fldigi \
+	./rx/fldigi/mfsk \
+	./rx/fldigi/rsid \
+	./rx/kiwi \
+	./rx/Teensy \
+	./rx/wdsp \
+	./support \
+	./ui
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
