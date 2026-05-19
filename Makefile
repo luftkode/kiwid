@@ -91,6 +91,9 @@ SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
 SOURCES_C   = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.c))
 # Filter out web.cpp from standard discovery because it needs special defines
 SOURCES_CPP := $(filter-out web/web.cpp, $(SOURCES_CPP))
+# Filter out DRM because it dosen't support Raspberry Pi
+SOURCES_CPP := $(filter-out extensions/DRM/%, $(SOURCES_CPP))
+SOURCES_C   := $(filter-out extensions/DRM/%, $(SOURCES_C))
 
 # --- Special Files ---
 KIWI_SPECIAL_OBJS = \
