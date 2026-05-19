@@ -198,7 +198,7 @@ $(GEN_HEADERS):
 # --- Extension initialiser ---
 # Automatically discover all extension modules on disk (excluding DRM)
 EXT_DIRS := $(sort $(dir $(wildcard extensions/*/)))
-EXTS     := $(filter-out HFDL DRM, $(notdir $(patsubst %/,%,$(EXT_DIRS))))
+EXTS     := $(filter-out example HFDL DRM, $(notdir $(patsubst %/,%,$(EXT_DIRS))))
 
 $(GEN_DIR)/ext_init.cpp:
 	@mkdir -p $(dir $@)
