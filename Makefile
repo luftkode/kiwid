@@ -161,7 +161,7 @@ KIWI_SPECIAL_OBJS = \
     $(OBJ_DIR)/web/web_embed.o \
     $(OBJ_DIR)/ext_init.o \
     $(OBJ_DIR)/edata_embed.o \
-    $(OBJ_DIR)/edata_always.o \
+    $(OBJ_DIR)/edata_always2.o \
     $(OBJ_DIR)/drm_stub.o
 
 # --- Object Files ---
@@ -222,9 +222,9 @@ $(GEN_DIR)/edata_embed.cpp: $(GEN_HEADERS) | $(GEN_DIR)
 	@echo "$(G)Generating$(N) $@ ($(words $(FILES_EMBED)) files)"
 	@cd web && perl mkdata.pl edata_embed $(FILES_EMBED) > ../$(GEN_DIR)/edata_embed.cpp
  
-$(GEN_DIR)/edata_always.cpp: $(GEN_HEADERS) | $(GEN_DIR)
+$(GEN_DIR)/edata_always2.cpp: $(GEN_HEADERS) | $(GEN_DIR)
 	@echo "$(G)Generating$(N) $@ ($(words $(FILES_ALWAYS)) files)"
-	@cd web && perl mkdata.pl edata_always $(FILES_ALWAYS) > ../$(GEN_DIR)/edata_always.cpp
+	@cd web && perl mkdata.pl edata_always2 $(FILES_ALWAYS) > ../$(GEN_DIR)/edata_always2.cpp
  
 $(GEN_DIR):
 	@mkdir -p $@
