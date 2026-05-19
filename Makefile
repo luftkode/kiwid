@@ -161,6 +161,7 @@ KIWI_SPECIAL_OBJS = \
     $(OBJ_DIR)/web/web_embed.o \
     $(OBJ_DIR)/ext_init.o \
     $(OBJ_DIR)/edata_embed.o \
+    $(OBJ_DIR)/edata_always.o \
     $(OBJ_DIR)/edata_always2.o \
     $(OBJ_DIR)/drm_stub.o
 
@@ -222,6 +223,10 @@ $(GEN_DIR)/edata_embed.cpp: $(GEN_HEADERS) | $(GEN_DIR)
 	@echo "$(G)Generating$(N) $@ ($(words $(FILES_EMBED)) files)"
 	@cd web && perl mkdata.pl edata_embed $(FILES_EMBED) > ../$(GEN_DIR)/edata_embed.cpp
  
+$(GEN_DIR)/edata_always.cpp: $(GEN_HEADERS) | $(GEN_DIR)
+	@echo "$(G)Generating$(N) $@ ($(words $(FILES_ALWAYS)) files)"
+	@cd web && perl mkdata.pl edata_always $(FILES_ALWAYS) > ../$(GEN_DIR)/edata_always.cpp
+
 $(GEN_DIR)/edata_always2.cpp: $(GEN_HEADERS) | $(GEN_DIR)
 	@echo "$(G)Generating$(N) $@ ($(words $(FILES_ALWAYS)) files)"
 	@cd web && perl mkdata.pl edata_always2 $(FILES_ALWAYS) > ../$(GEN_DIR)/edata_always2.cpp
@@ -258,6 +263,11 @@ $(OBJ_DIR)/ext_init.o: $(GEN_DIR)/ext_init.cpp
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/edata_embed.o: $(GEN_DIR)/edata_embed.cpp
+	@mkdir -p $(dir $@)
+	@echo "$(G)Compiling$(N) $<"
+	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
+
+$(OBJ_DIR)/edata_always.o: $(GEN_DIR)/edata_always.cpp
 	@mkdir -p $(dir $@)
 	@echo "$(G)Compiling$(N) $<"
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
