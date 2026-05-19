@@ -89,6 +89,7 @@ ALL_DIRS := \
 	. \
 	./cfg \
 	./dev \
+	./dx \
 	./extensions \
 	./extensions/ALE_2G \
 	./extensions/colormap \
