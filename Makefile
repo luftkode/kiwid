@@ -139,9 +139,9 @@ clean:
 # --- Header Generation and Softcore/e_cpu Assembling ---
 GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 
-$(ALL_OBJECTS): $(GEN_HEADERS)
+$(ALL_OBJECTS): $(GEN_HEADERS) $(GEN_SOURCES)
 
-$(GEN_HEADERS):
+$(GEN_HEADERS) $(GEN_SOURCES):
 	@$(MAKE) -C e_cpu gen \
 		BUILD_CXX="$(BUILD_CXX)" \
 		BUILD_DIR="../$(BUILD_DIR)" \
