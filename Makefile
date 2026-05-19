@@ -89,13 +89,14 @@ ALL_DIRS := $(shell find . \
 	-maxdepth 4 \
 	-not -path '*/.*' \
 	-type d)
-# Filter out build, object, nested legacy/duplicate dirs, standalone tools, and conflicting hardware backends
+# Filter out build, object, nested legacy/duplicate dirs, tests, standalone tools, and conflicting hardware backends
 ALL_DIRS := $(filter-out \
 	./$(OBJ_DIR)% \
 	./pkgs/mongoose/mongoose% \
 	./web/web% \
 	./tools% \
-	./platform%, \
+	./platform% \
+	./pkgs/jsmn/test%, \
 	$(ALL_DIRS))
 # Manualy add correct hardware backends
 ALL_DIRS += ./platform ./platform/common ./platform/raspberrypi
