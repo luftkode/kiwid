@@ -97,6 +97,7 @@ ALL_DIRS := \
 	./extensions/CW_skimmer \
 	./extensions/devl \
 	./extensions/digi_modes \
+	./extensions\DRM\dream\resample \
 	./extensions/FAX \
 	./extensions/FFT \
 	./extensions/FSK \
