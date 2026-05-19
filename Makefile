@@ -71,9 +71,13 @@ override DEFS += \
 FFTW_CFLAGS := $(shell $(PKG_CONFIG) --cflags fftw3f 2>/dev/null || echo "-I/usr/include")
 FFTW_LIBS   := $(shell $(PKG_CONFIG) --libs fftw3f 2>/dev/null || echo "-lfftw3f")
 
+# --- GLIB Compiler Flags (Required by HFDL extension) ---
+GLIB_CFLAGS := $(shell $(PKG_CONFIG) --cflags glib-2.0 2>/dev/null || echo "-I/usr/include/glib-2.0 -I/usr/lib/arm-linux-gnueabihf/glib-2.0/include -I/usr/lib/aarch64-linux-gnu/glib-2.0/include")
+GLIB_LIBS   := $(shell $(PKG_CONFIG) --libs glib-2.0 2>/dev/null || echo "-lglib-2.0")
+
 # --- Other Flags ---
-INTERNAL_CFLAGS = $(DEFS) $(INCLUDES) $(FFTW_CFLAGS) -O3 -g -pthread -include sys/wait.h 
-INTERNAL_LDFLAGS = $(FFTW_LIBS) -lutil -lcrypt -lrt -lpthread -lm
+INTERNAL_CFLAGS = $(DEFS) $(INCLUDES) $(FFTW_CFLAGS) $(GLIB_CFLAGS) -O3 -g -pthread -include sys/wait.h 
+INTERNAL_LDFLAGS = $(FFTW_LIBS) $(GLIB_LIBS) -lutil -lcrypt -lrt -lpthread -lm
 
 # --- All Flags Combined ---
 ALL_CXXFLAGS = $(CXXFLAGS) $(INTERNAL_CFLAGS)
