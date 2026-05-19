@@ -64,7 +64,8 @@ override DEFS += \
     -DGITHUB_COM_PUBLIC_IP=\"$(GITHUB_IP)\" \
 	-DMONGOOSE_NEW_API \
 	-DMG_ENABLE_THREADS \
-	-DHAVE_STDINT_H=1
+	-DHAVE_STDINT_H=1 \
+	-D__UINT64_FMTx__=\"llx\"
 
 # --- FFTW3 Compiler Flags ---
 FFTW_CFLAGS := $(shell $(PKG_CONFIG) --cflags fftw3f 2>/dev/null || echo "-I/usr/include")
