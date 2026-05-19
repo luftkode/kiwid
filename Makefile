@@ -139,9 +139,9 @@ clean:
 # --- Header Generation and Softcore/e_cpu Assembling ---
 GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 
-$(ALL_OBJECTS): $(GEN_HEADERS)
+$(ALL_OBJECTS): $(GEN_HEADERS) build/gen/ext_init.cpp
 
-build/gen/ext_init.cpp build/gen/edata_embed.cpp build/gen/edata_always.cpp: $(GEN_HEADERS)
+build/gen/edata_embed.cpp build/gen/edata_always.cpp: $(GEN_HEADERS)
 	@:
 
 $(GEN_HEADERS):
@@ -149,6 +149,25 @@ $(GEN_HEADERS):
 		BUILD_CXX="$(BUILD_CXX)" \
 		BUILD_DIR="../$(BUILD_DIR)" \
 		GEN_DIR="../$(GEN_DIR)"
+
+# Automatically discover all extension modules on disk (excluding DRM)
+EXT_DIRS := $(sort $(dir $(wildcard extensions/*/)))
+EXTS     := $(filter-out DRM, $(notdir $(patsubst %/,%,$(EXT_DIRS))))
+
+build/gen/ext_init.cpp:
+	@mkdir -p $(dir $@)
+	@echo "$(G)Generating$(N) $@"
+	@echo "// auto-generated file -- do not edit by hand" > $@
+	@echo "void extint_init() {" >> $@
+	@$(foreach ext,$(EXTS),printf "\textern void $(ext)_main(); $(ext)_main();\n" >> $@.tmp;)
+	@if [ -f $@.tmp ]; then sort -bdf -f $@.tmp >> $@ && rm -f $@.tmp; fi
+	@echo "}" >> $@
+	@echo "bool extint_vars() {" >> $@
+	@echo "    bool vars = false;" >> $@
+	@$(foreach ext,$(EXTS),printf "\textern bool $(ext)_vars(); vars |= $(ext)_vars();\n" >> $@.tmp;)
+	@if [ -f $@.tmp ]; then sort -bdf -f $@.tmp >> $@ && rm -f $@.tmp; fi
+	@echo "    return vars;" >> $@
+	@echo "}" >> $@
 
 # --- Linking ---
 $(BIN): $(ALL_OBJECTS)
