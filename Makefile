@@ -3,7 +3,7 @@ VERSION_MIN = 838
 
 # You must have:
 # sudo apt-get install \
-libfftw3-dev libsndfile1-dev zlib1g-dev
+pkg-config libglib2.0-dev libfftw3-dev libsndfile1-dev zlib1g-dev libsqlite3-dev libconfig-dev
 
 # --- Compiler ---
 CC       ?= gcc
