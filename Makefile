@@ -84,8 +84,16 @@ ALL_DIRS := $(shell find . \
 	-maxdepth 4 \
 	-not -path '*/.*' \
 	-type d)
-# Filter out build, object, nested legacy/duplicate dirs, and standalone tools
-ALL_DIRS := $(filter-out ./$(OBJ_DIR)% ./pkgs/mongoose/mongoose% ./web/web% ./tools%, $(ALL_DIRS))
+# Filter out build, object, nested legacy/duplicate dirs, standalone tools, and conflicting hardware backends
+ALL_DIRS := $(filter-out \
+	./$(OBJ_DIR)% \
+	./pkgs/mongoose/mongoose% \
+	./web/web% \
+	./tools% \
+	./platform%, \
+	$(ALL_DIRS))
+# Manualy add correct hardware backends
+ALL_DIRS += ./platform ./platform/common ./platform/raspberrypi
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
