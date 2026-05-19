@@ -127,7 +127,6 @@ ALL_DIRS := \
 	./pkgs/EiBi \
 	./pkgs/jsmn \
 	./pkgs/mongoose \
-	./pkgs/noip2 \
 	./pkgs/parson \
 	./pkgs/sdrpp_server \
 	./pkgs/sha256 \
