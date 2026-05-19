@@ -30,7 +30,7 @@ N := $(NORMAL)
 BUILD_DIR = build
 OBJ_DIR   = $(BUILD_DIR)/obj
 GEN_DIR   = $(BUILD_DIR)/gen
-BIN       = $(BUILD_DIR)/kiwid
+BIN       = $(BUILD_DIR)/kiwi.bin
 
 # --- Misc ---
 REPO_NAME = kiwid
