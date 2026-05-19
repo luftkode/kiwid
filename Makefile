@@ -140,7 +140,7 @@ clean:
 GEN_HEADERS = $(GEN_DIR)/kiwi.gen.h
 
 # All compiled objects depend on the generated header being present first
-$(ALL_OBJECTS): $(GEN_HEADERS) build/gen/ext_init.cpp
+$(ALL_OBJECTS): $(GEN_HEADERS) $(GEN_DIR)/ext_init.cpp
 
 $(GEN_HEADERS):
 	@$(MAKE) -C e_cpu gen \
@@ -153,7 +153,7 @@ $(GEN_HEADERS):
 EXT_DIRS := $(sort $(dir $(wildcard extensions/*/)))
 EXTS     := $(filter-out DRM, $(notdir $(patsubst %/,%,$(EXT_DIRS))))
 
-build/gen/ext_init.cpp:
+$(GEN_DIR)/ext_init.cpp:
 	@mkdir -p $(dir $@)
 	@echo "$(G)Generating$(N) $@"
 	@echo "// auto-generated file -- do not edit by hand" > $@
@@ -187,7 +187,7 @@ $(GEN_DIR):
 $(BIN): $(ALL_OBJECTS)
 	@mkdir -p $(dir $@)
 	@echo "$(G)Linking$(N) $@"
-	$(CXX) $(ALL_OBJECTS) $(ALL_LDFLAGS) -o $@
+	@$(CXX) $(ALL_OBJECTS) $(ALL_LDFLAGS) -o $@
 
 # --- Standard Pattern Rules ---
 $(OBJ_DIR)/%.o: %.cpp
