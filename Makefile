@@ -85,14 +85,15 @@ ALL_DIRS := $(shell find . \
 	-not -path '*/.*' \
 	-not -path './$(OBJ_DIR)*' \
 	-type d)
-# Filter out DRM because it dosen't support Raspberry Pi
-ALL_DIRS := $(filter-out ./extensions/DRM%, $(ALL_DIRS))
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
 SOURCES_C   = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.c))
 # Filter out web.cpp from standard discovery because it needs special defines
 SOURCES_CPP := $(filter-out web/web.cpp, $(SOURCES_CPP))
+# Filter out DRM because it dosen't support Raspberry Pi
+SOURCES_CPP := $(foreach src,$(SOURCES_CPP),$(if $(findstring /extensions/DRM/,$(src)),,$(src)))
+SOURCES_C   := $(foreach src,$(SOURCES_C),$(if $(findstring /extensions/DRM/,$(src)),,$(src)))
 
 # --- Special Files ---
 KIWI_SPECIAL_OBJS = \
