@@ -197,7 +197,7 @@ $(GEN_HEADERS):
 # --- Extension initialiser ---
 # Automatically discover all extension modules on disk (excluding DRM)
 EXT_DIRS := $(sort $(dir $(wildcard extensions/*/)))
-EXTS     := $(filter-out DRM, $(notdir $(patsubst %/,%,$(EXT_DIRS))))
+EXTS     := $(filter-out HFDL DRM, $(notdir $(patsubst %/,%,$(EXT_DIRS))))
 
 $(GEN_DIR)/ext_init.cpp:
 	@mkdir -p $(dir $@)
@@ -262,7 +262,7 @@ $(OBJ_DIR)/edata_embed.o: $(GEN_DIR)/edata_embed.cpp
 	@echo "$(G)Compiling$(N) $<"
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/edata_always.o: $(GEN_DIR)/edata_always.cpp
+$(OBJ_DIR)/edata_always2.o: $(GEN_DIR)/edata_always2.cpp
 	@mkdir -p $(dir $@)
 	@echo "$(G)Compiling$(N) $<"
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
