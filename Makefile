@@ -83,10 +83,9 @@ ALL_LDFLAGS  = $(LDFLAGS) $(INTERNAL_LDFLAGS)
 ALL_DIRS := $(shell find . \
 	-maxdepth 4 \
 	-not -path '*/.*' \
-	-not -path './$(OBJ_DIR)*' \
 	-type d)
-# Filter out unused old versions of mongoose
-ALL_DIRS := $(filter-out ./$(OBJ_DIR)% ./pkgs/mongoose/mongoose%, $(ALL_DIRS))
+# Filter out build, object, and nested legacy/duplicate dirs
+ALL_DIRS := $(filter-out ./$(OBJ_DIR)% ./pkgs/mongoose/mongoose% ./web/web%, $(ALL_DIRS))
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
