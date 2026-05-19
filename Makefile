@@ -124,7 +124,6 @@ ALL_DIRS := \
 	./gps/ka9q-fec \
 	./net \
 	./pkgs/ant_switch \
-	./pkgs/EiBi \
 	./pkgs/jsmn \
 	./pkgs/mongoose \
 	./pkgs/parson \
