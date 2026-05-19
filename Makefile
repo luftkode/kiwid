@@ -84,8 +84,8 @@ ALL_DIRS := $(shell find . \
 	-maxdepth 4 \
 	-not -path '*/.*' \
 	-type d)
-# Filter out build, object, and nested legacy/duplicate dirs
-ALL_DIRS := $(filter-out ./$(OBJ_DIR)% ./pkgs/mongoose/mongoose% ./web/web%, $(ALL_DIRS))
+# Filter out build, object, nested legacy/duplicate dirs, and standalone tools
+ALL_DIRS := $(filter-out ./$(OBJ_DIR)% ./pkgs/mongoose/mongoose% ./web/web% ./tools%, $(ALL_DIRS))
 
 # --- Source Files ---
 SOURCES_CPP = $(foreach dir,$(ALL_DIRS),$(wildcard $(dir)/*.cpp))
