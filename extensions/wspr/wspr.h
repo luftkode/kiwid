@@ -142,8 +142,8 @@
 
 #define	SRATE		375					// design sample rate
 #define	FSRATE		375.0
-#define	CTIME		120					// capture time secs
-#define	TPOINTS 	(SRATE * CTIME)     // 45000
+#define	WSPR_CTIME		120					// capture time secs
+#define	TPOINTS 	(SRATE * WSPR_CTIME)     // 45000
 
 #define NBINS       411
 
