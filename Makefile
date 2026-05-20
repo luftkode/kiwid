@@ -56,7 +56,6 @@ override DEFS += \
 	-DDIR_DATA=\"/var/lib/kiwi\" \
 	-DCFG_PREFIX=\"\" \
 	-DCOMPILE_HOST=\"$(HOST_NAME)\" \
-	-DSPI_SHMEM_DISABLE=1 \
     -DBUILD_DIR=\"$(BUILD_DIR)\" \
 	-DREPO_NAME=\"$(REPO_NAME)\" \
     -DREPO_DIR=\"$(REPO_PATH)\" \
@@ -76,7 +75,7 @@ GLIB_CFLAGS := $(shell $(PKG_CONFIG) --cflags glib-2.0 2>/dev/null || echo "-I/u
 GLIB_LIBS   := $(shell $(PKG_CONFIG) --libs glib-2.0 2>/dev/null || echo "-lglib-2.0")
 
 # --- Other Flags ---
-INTERNAL_CFLAGS = $(DEFS) $(INCLUDES) $(FFTW_CFLAGS) $(GLIB_CFLAGS) -O3 -g -pthread -include sys/wait.h 
+INTERNAL_CFLAGS = $(DEFS) $(INCLUDES) $(FFTW_CFLAGS) $(GLIB_CFLAGS) -O0 -g3 -fno-omit-frame-pointer -fno-strict-aliasing -pthread
 INTERNAL_LDFLAGS = $(FFTW_LIBS) $(GLIB_LIBS) -lutil -lcrypt -lrt -lpthread -lm
 
 # --- All Flags Combined ---
