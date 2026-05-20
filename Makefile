@@ -36,7 +36,6 @@ BIN       = $(BUILD_DIR)/kiwi.bin
 REPO_NAME = kiwid
 REPO_PATH = $(shell pwd)
 REPO_GIT = https://github.com/luftkode/$(REPO_NAME)
-GITHUB_IP = "140.82.121.3"
 HOST_NAME = "kiwisdr"
 
 # --- Includes ---
@@ -60,7 +59,6 @@ override DEFS += \
 	-DREPO_NAME=\"$(REPO_NAME)\" \
     -DREPO_DIR=\"$(REPO_PATH)\" \
     -DREPO_GIT=\"$(REPO_GIT)\" \
-    -DGITHUB_COM_PUBLIC_IP=\"$(GITHUB_IP)\" \
 	-DMONGOOSE_NEW_API \
 	-DMG_ENABLE_THREADS \
 	-DHAVE_STDINT_H=1 \
