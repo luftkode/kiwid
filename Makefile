@@ -171,6 +171,19 @@ ALL_OBJECTS = $(OBJECTS_CPP) $(OBJECTS_C) $(KIWI_SPECIAL_OBJS)
 vpath %.cpp $(ALL_DIRS)
 vpath %.c   $(ALL_DIRS)
 
+# --- Progress Bar ---
+TOTAL := $(words $(ALL_OBJECTS))
+COUNT_FILE := $(BUILD_DIR)/.count
+
+define progress
+@touch $(COUNT_FILE); \
+count=$$(cat $(COUNT_FILE) || echo 0); \
+next=$$((count + 1)); \
+echo $$next > $(COUNT_FILE); \
+printf "$(G)Compiling$(N) [%d/%3d] %s\n" \
+$$next $(TOTAL) "$<"
+endef
+
 # ---------- Recipes ----------
 clean_build: clean build
 
@@ -240,38 +253,38 @@ $(BIN): $(ALL_OBJECTS)
 # --- Standard Pattern Rules ---
 $(OBJ_DIR)/%.o: %.cpp
 	@mkdir -p $(dir $@)
-	@echo "$(G)Compiling$(N) $<"
+	$(progress)
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(dir $@)
-	@echo "$(G)Compiling$(N) $<"
+	$(progress)
 	@$(CC) $(ALL_CFLAGS) -c $< -o $@
 
 # --- Special Object Rules ---
 $(OBJ_DIR)/web/web_embed.o: web/web.cpp
 	@mkdir -p $(dir $@)
-	@echo "$(G)Compiling$(N) $<"
+	$(progress)
 	@$(CXX) $(ALL_CXXFLAGS) -DEDATA_EMBED -c $< -o $@
 
 $(OBJ_DIR)/ext_init.o: $(GEN_DIR)/ext_init.cpp
 	@mkdir -p $(dir $@)
-	@echo "$(G)Compiling$(N) $<"
+	$(progress)
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/edata_embed.o: $(GEN_DIR)/edata_embed.cpp
 	@mkdir -p $(dir $@)
-	@echo "$(G)Compiling$(N) $<"
+	$(progress)
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/edata_always.o: $(GEN_DIR)/edata_always.cpp
 	@mkdir -p $(dir $@)
-	@echo "$(G)Compiling$(N) $<"
+	$(progress)
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/edata_always2.o: $(GEN_DIR)/edata_always2.cpp
 	@mkdir -p $(dir $@)
-	@echo "$(G)Compiling$(N) $<"
+	$(progress)
 	@$(CXX) $(ALL_CXXFLAGS) -c $< -o $@
 
 $(OBJ_DIR)/drm_stub.o:
