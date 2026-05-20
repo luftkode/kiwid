@@ -44,9 +44,9 @@ Boston, MA  02110-1301, USA.
 #include <stdarg.h>
 #include <time.h>
 #include <sys/mman.h>
+#include <sys/wait.h>
 
 #ifdef HOST
-	#include <wait.h>
     #include <sys/prctl.h>
 #endif
 
